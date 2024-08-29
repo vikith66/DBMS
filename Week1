@@ -1,0 +1,135 @@
+CREATE TABLE DEPT (
+    DNO VARCHAR2(3) CONSTRAINT DNO_UNQ_Cons UNIQUE,
+    DNAME VARCHAR2(10) CONSTRAINT DNAME_UNQ_Cons UNIQUE,
+    LOCATION VARCHAR2(9) CONSTRAINT VALID_LOC_Cons CHECK (LOCATION IN ('BNG', 'MNG', 'MUB', 'HYD', 'CHN')),
+    CONSTRAINT D_LikeDNO_Cons CHECK (DNO LIKE 'D%')
+);
+
+Table created.
+
+********
+
+CREATE TABLE EMP (
+    EMPNO NUMBER(4) PRIMARY KEY,
+    ENAME VARCHAR2(10),
+    JOB VARCHAR2(9) CONSTRAINT JOB_CHK_Cons CHECK (JOB IN ('CLRK', 'MGR', 'A.MGR', 'GM', 'CEO')),
+    MGRID NUMBER(4),
+    DATE_BIRTH DATE,
+    SAL NUMBER(7,2) CONSTRAINT SAL_20KMore_Cons CHECK (SAL > 20000),
+    COMM NUMBER(7,2) DEFAULT 1000,
+    DNO VARCHAR2(3),
+    DATE_JOIN DATE,
+    CONSTRAINT MGR_FK_EMPNO_Cons FOREIGN KEY (MGRID) REFERENCES EMP (EMPNO),
+    CONSTRAINT DB_Less_DBJOIN_Cons CHECK (DATE_BIRTH < DATE_JOIN),
+    CONSTRAINT DEPTNO_FK_DEPT_Cons FOREIGN KEY (DNO) REFERENCES DEPT (DNO) ON DELETE CASCADE
+);
+
+Table created.
+
+********
+
+CREATE TABLE PROJ (
+    DNO VARCHAR2(3) NOT NULL CONSTRAINT DNO_FK_DEPT_Cons REFERENCES DEPT(DNO),
+    PRJ_NO VARCHAR2(5) NOT NULL CONSTRAINT P_LikePRJNO_Cons CHECK (PRJ_NO LIKE 'P%'),
+    PRJ_NAME VARCHAR2(10),
+    PRJ_CREDIT NUMBER(2) CONSTRAINT PRJ_CREDIT_RANGE_Cons CHECK (PRJ_CREDIT BETWEEN 1 AND 10),
+    STRT_DATE DATE,
+    END_DATE DATE,
+    CONSTRAINT ENDDATE_GRT_STRT_Cons CHECK (END_DATE > STRT_DATE)
+);
+
+Table created.
+
+*******
+
+2.1 Make the combination of DNO and PRJ_NO as primary key in the table PROJ.
+ALTER TABLE PROJ
+ADD CONSTRAINT PK_PROJ PRIMARY KEY (DNO, PRJ_NO);
+
+Table altered.
+
+********
+
+CREATE TABLE TASK (
+    TASK_ID NUMBER(3),
+    TASK_NAME VARCHAR2(100),
+    PRJ_ID VARCHAR2(5),
+    DNO VARCHAR2(3),
+    S_DATE DATE,
+    E_DATE DATE,
+    STATUS VARCHAR2(50),
+    CONSTRAINT PRJ_FK_TASK_CONS FOREIGN KEY (PRJ_ID, DNO) REFERENCES PROJ (PRJ_NO, DNO) ON DELETE SET NULL,
+    CONSTRAINT EDATE_GRT_SDATE_CONS CHECK (E_DATE > S_DATE)
+);
+
+Table created.
+
+*********
+
+
+2.2 Add a column to EMP table named PRJ_ID. Add a foreign key constraint to EMP table on
+(DeptNo, Proj_Id) referencing PROJ. (Indicates an employee from which department is working
+on which project/s.)
+```
+ALTER TABLE EMP
+ADD PRJ_ID VARCHAR2(5);
+```
+
+Table altered.
+
+*********
+
+Add the Composite Foreign Key Constraint
+```
+ALTER TABLE EMP
+ADD CONSTRAINT FK_EMP_PROJ
+FOREIGN KEY (DNO, PRJ_ID) REFERENCES PROJ (DNO, PRJ_NO);
+```
+
+Table altered.
+
+
+2.3 Add constraints(VALID_EMPNO_Cons) to the EMP table to check the EMPNO >100.
+```
+ALTER TABLE EMP
+ADD CONSTRAINT VALID_EMPNO_Cons CHECK (EMPNO > 100);
+```
+
+Table altered.
+
+
+2.4 Add a new column Dept_Budget column of size 7 digits to the DEPT table
+```
+ALTER TABLE DEPT
+ADD Dept_Budget NUMBER(7);
+```
+Table altered.
+
+
+2.5 Add a new column Prj_Fund column of size 7 digits to the PROJ table.
+```
+ALTER TABLE PROJ
+ADD Prj_Fund NUMBER(7);
+```
+Table altered.
+
+
+2.6 Add constraint to STATUS column of TASK table to include values {NOT STARTED,IN
+PROGREES,COMPLETED}
+
+```
+ALTER TABLE TASK
+ADD CONSTRAINT STATUS_CHECK_Cons
+CHECK (STATUS IN ('NOT STARTED', 'IN PROGRESS', 'COMPLETED'));
+```
+Table altered.
+
+
+2.7 In the table TASK, make Task_Id,DNO,Prj_ID as the primary key.
+```
+ALTER TABLE TASK
+ADD CONSTRAINT PK_TASK_COMPOSITE
+PRIMARY KEY (Task_Id, DNO, Prj_ID);
+```
+
+Table altered.
