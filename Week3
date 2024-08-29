@@ -205,6 +205,47 @@ Ravraj
 Navraj
 
 
+4.11 Display the task details for the tasks with a duration of less than 1 week:
+
+INSERT INTO TASK (TASK_ID, TASK_NAME, PRJ_ID, DNO, S_DATE, E_DATE, STATUS) 
+VALUES (6, 'Testing Phase', 'P3', 'D1', TO_DATE('2024-11-02', 'YYYY-MM-DD'), TO_DATE('2024-11-05', 'YYYY-MM-DD'), 'NOT STARTED');
+
+INSERT INTO TASK (TASK_ID, TASK_NAME, PRJ_ID, DNO, S_DATE, E_DATE, STATUS) 
+VALUES (7, 'Deployment Phase', 'P2', 'D2', TO_DATE('2024-12-02', 'YYYY-MM-DD'), TO_DATE('2024-12-05', 'YYYY-MM-DD'), 'NOT STARTED');
+
+SELECT * FROM TASK WHERE E_DATE - S_DATE < 7;
 
 
+TASK_ID
+----------
+TASK_NAME
+----------------------------------------------------------------------------------------------------
+PRJ_I DNO S_DATE    E_DATE    STATUS
+----- --- --------- --------- --------------------------------------------------
+         6
+Testing Phase
+P3    D1  02-NOV-24 05-NOV-24 NOT STARTED
+
+         7
+Deployment Phase
+P2    D2  02-DEC-24 05-DEC-24 NOT STARTED
+
+
+
+4.12 Find projects that have tasks starting after January 1, 2024:
+
+SELECT PRJ_NAME FROM PROJ WHERE STRT_DATE > '01-JAN-2024';
+
+PRJ_NAME
+----------
+Project 1
+Project 1
+Project 2
+Project 3
+Project 2
+Project 4
+Project 5
+Project 1
+
+8 rows selected.
 
