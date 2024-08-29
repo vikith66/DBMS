@@ -1,0 +1,5 @@
+4.1 Display records of Employees who have salary more than 25000 or working in department D1 .
+SELECT * 
+FROM EMP
+WHERE SAL > 25000
+OR DEPTNO = 'D1';
