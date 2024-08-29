@@ -205,10 +205,100 @@ UPDATE EMP SET MGRID=106 WHERE EMPNO=131;
 
 1 row updated.
 
-UPDATE EMP SET MGRID = 130 WHERE EMPNO = 132;
+UPDATE EMP SET MGRID = 111 WHERE EMPNO = 132;
 
 1 row updated.
 
 UPDATE EMP SET MGRID = 133 WHERE EMPNO = 133;
 
 1 row updated.
+
+
+
+
+
+3.5 Run COMMIT command. Delete the employee records working on project P3 and confirm the result. Type ROLLBACK to restore the records back if records are deleted.
+COMMIT;
+
+SQL> DELETE FROM EMP WHERE PRJ_ID = 'P3';
+
+3 rows deleted.
+
+SQL> SELECT * FROM EMP WHERE PRJ_ID = 'P3';
+
+no rows selected
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM EMP WHERE PRJ_ID = 'P3';
+
+     EMPNO ENAME      JOB            MGRID DATE_BIRT        SAL       COMM DEP
+---------- ---------- --------- ---------- --------- ---------- ---------- ---
+DATE_JOIN PRJ_I
+--------- -----
+       102 Raviraj    CLRK             106 10-DEC-80      24000      11000 D1
+12-NOV-00 P3
+
+       120 Raju       CLRK             111 02-OCT-80      21000       7000 D1
+02-OCT-02 P3
+
+       130 Malhan     CLRK             111 10-DEC-80      25000      10000 D1
+02-OCT-01 P3
+
+
+
+3.6 Run COMMIT command. Delete Accounts department from the DEPT table and confirm the result with reason. Type ROLLBACK to restore the records back if records are deleted
+COMMIT;
+DELETE FROM DEPT WHERE DNAME = 'Accounts';
+DELETE operation failed because there are child records in other tables that reference the department you are trying to delete.
+
+3.7
+Run COMMIT command. Delete records of employees with Empno 125 and working
+in project P2. Type ROLLBACK to restore the records back, if records are deleted.
+COMMIT;
+DELETE FROM EMP 
+WHERE EMPNO = 125 
+AND PRJ_ID = 'P2';
+
+DELETE operation failed because there are child records in other tables that reference the department you are trying to delete.
+
+
+3.8 Run COMMIT command .Delete all the tasks under Project P2. If deleted,type ROLLBACK to restore the records.
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> DELETE FROM TASK
+  2  WHERE PRJ_ID = 'P2';
+
+2 rows deleted.
+
+SQL> SELECT * FROM TASK
+  2  WHERE PRJ_ID = 'P2';
+
+no rows selected
+
+SQL> ROLLBACK;
+
+Rollback complete.
+
+SQL> SELECT * FROM TASK
+  2  WHERE PRJ_ID = 'P2';
+
+   TASK_ID
+----------
+TASK_NAME
+--------------------------------------------------------------------------------
+PRJ_I DNO S_DATE    E_DATE    STATUS
+----- --- --------- --------- --------------------------------------------------
+         1
+Design Phase
+P2    D3  10-AUG-24 10-SEP-24 COMPLETED
+
+         2
+Development Phase
+P2    D3  11-SEP-24 01-NOV-24 IN PROGRESS
+
+
