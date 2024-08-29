@@ -302,3 +302,54 @@ Development Phase
 P2    D3  11-SEP-24 01-NOV-24 IN PROGRESS
 
 
+
+
+
+3.9 Update the DNO of first record in PROJ to D5
+-- Update the DNO of the record with the smallest PRJ_NO
+
+SELECT * 
+FROM PROJ
+ORDER BY PRJ_NO
+FETCH FIRST ROW ONLY;
+
+
+UPDATE PROJ
+SET DNO = 'D5'
+WHERE PRJ_NO = (
+    SELECT MIN(PRJ_NO) 
+    FROM PROJ
+);
+
+ERROR at line 1:
+ORA-00001: unique constraint (SYSTEM.PK_PROJ) violated
+
+
+
+3.10 Update the Job of employee with Empno 123 to MGR, salary to 35000 and his manager as 111.
+
+UPDATE EMP
+SET JOB = 'MGR',
+    SAL = 35000,
+    MGRID = 111
+WHERE EMPNO = 123;
+
+1 row updated.
+
+SELECT * FROM EMP
+WHERE EMPNO = 123;
+
+
+
+3.11 Update the EMP table to set the default commission of all employees to Rs.10000/-who are working as managers.
+
+UPDATE EMP
+SET COMM = 10000
+WHERE JOB = 'MGR' OR JOB = 'A.MGR' OR JOB = 'GM';
+5 rows updated.
+
+SELECT EMPNO, ENAME, JOB, COMM
+FROM EMP
+WHERE JOB = 'MGR' OR JOB = 'A.MGR' OR JOB = 'GM';
+
+
