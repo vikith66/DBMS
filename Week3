@@ -172,10 +172,37 @@ P2    Project 1
 P3    Project 5
 
 
+4.9 List all employees reporting to the manager with empno 111:
+SELECT * 
+FROM EMP 
+WHERE MGRID = 111;
+
+     EMPNO ENAME      JOB            MGRID DATE_BIRT        SAL       COMM DEP DATE_JOIN PRJ_I
+---------- ---------- --------- ---------- --------- ---------- ---------- --- --------- -----
+       101 Ravi       MGR              111 10-OCT-85      32000            D1  02-OCT-01 P1
+       103 Raju       CLRK             111 10-DEC-80      21000       7000 D1  02-OCT-01 P1
+       120 Raju       CLRK             111 02-OCT-80      21000       7000 D1  02-OCT-02 P3
+       106 Manohar    MGR              111 02-OCT-86      33000      10000 D2  02-OCT-05 P1
+       123 Mahesh     MGR              111 10-DEC-74      35000      10000 D3  02-OCT-02 P2
+       130 Malhan     CLRK             111 10-DEC-80      25000      10000 D1  02-OCT-01 P3
+       132 John       CLRK             111 15-AUG-90      26000       2000 D3  05-MAY-15 P2
+
+7 rows selected.
 
 
+4.10 Display the name of employees whose 2nd & 3rd characters are ‘av’, name length is 6, and ends with ‘j’:
+
+INSERT INTO Emp VALUES (140, 'Ravraj', 'CEO', 111, TO_DATE('10-12-1970', 'DD-MM-YYYY'), 60000, 30000, 'D1', TO_DATE('03-12-1990', 'DD-MM-YYYY'), 'P1');
+INSERT INTO Emp VALUES (141, 'Navraj', 'CEO', 111, TO_DATE('10-12-1970', 'DD-MM-YYYY'), 60000, 30000, 'D1', TO_DATE('03-12-1990', 'DD-MM-YYYY'), 'P1');
+SELECT ENAME 
+FROM EMP 
+WHERE ENAME LIKE '_av__j';
 
 
+ENAME
+----------
+Ravraj
+Navraj
 
 
 
