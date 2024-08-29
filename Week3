@@ -3,3 +3,181 @@ SELECT *
 FROM EMP
 WHERE SAL > 25000
 OR DEPTNO = 'D1';
+
+EMPNO ENAME      JOB            MGRID DATE_BIRT        SAL       COMM DEP DATE_JOIN PRJ_I
+---------- ---------- --------- ---------- --------- ---------- ---------- --- --------- -----
+       101 Ravi       MGR              111 10-OCT-85      32000      10000 D1  02-OCT-01 P1
+       102 Raviraj    CLRK             106 10-DEC-80      24000      11000 D1  12-NOV-00 P3
+       111 Raghu      GM               150 10-DEC-74      45000      10000     03-DEC-85
+       150 Ramu       CEO                  10-DEC-70      60000      30000     03-DEC-90
+       103 Raju       CLRK             111 10-DEC-80      21000       7000 D1  02-OCT-01 P1
+       120 Raju       CLRK             111 02-OCT-80      21000       7000 D1  02-OCT-02 P3
+       106 Manohar    MGR              111 02-OCT-86      33000      10000 D2  02-OCT-05 P1
+       123 Mahesh     MGR              111 10-DEC-74      35000      10000 D3  02-OCT-02 P2
+       130 Malhan     CLRK             111 10-DEC-80      25000      10000 D1  02-OCT-01 P3
+       132 John       CLRK             111 15-AUG-90      26000       2000 D3  05-MAY-15 P2
+       133 Sara       MGR              133 20-NOV-85      35000      10000 D5  12-JUL-10 P1
+
+11 rows selected.
+
+
+4.2 List all employee with their names as “Employee Name” and their salaries as
+“SALARY”, whose salary lies between 25200/- and 35200/- both inclusive
+
+SELECT ENAME AS "Employee Name", SAL AS "SALARY"
+FROM EMP
+WHERE SAL BETWEEN 25200 AND 35200;
+
+Employee N     SALARY
+---------- ----------
+Ravi            32000
+Manohar         33000
+Mahesh          35000
+John            26000
+Sara            35000
+
+
+
+
+4.3 List the names of employees who are working at locations (BNG, MUB, HYD) using both OR and IN operators:
+
+SELECT ENAME
+FROM EMP JOIN DEPT ON EMP.DEPTNO = DEPT.DNO
+WHERE LOCATION IN ('BNG', 'MUB', 'HYD');
+
+ENAME
+----------
+Manu
+Mahesh
+Mayank
+Maanya
+John
+Sara
+
+6 rows selected.
+
+
+SELECT ENAME
+FROM EMP JOIN DEPT ON EMP.DEPTNO = DEPT.DNO
+WHERE LOCATION = 'BNG'
+OR LOCATION = 'MUB'
+OR LOCATION = 'HYD';
+
+ENAME
+----------
+Manu
+Mahesh
+Mayank
+Maanya
+John
+Sara
+
+6 rows selected.
+
+
+
+
+4.4 Display the records in the EMP table in the ascending order of Deptno and descending
+order of salary.
+
+SELECT *
+FROM EMP
+ORDER BY DEPTNO ASC, SAL DESC;
+
+    EMPNO ENAME      JOB            MGRID DATE_BIRT        SAL       COMM DEP DATE_JOIN PRJ_I
+---------- ---------- --------- ---------- --------- ---------- ---------- --- --------- -----
+       101 Ravi       MGR              111 10-OCT-85      32000      10000 D1  02-OCT-01 P1
+       130 Malhan     CLRK             111 10-DEC-80      25000      10000 D1  02-OCT-01 P3
+       102 Raviraj    CLRK             106 10-DEC-80      24000      11000 D1  12-NOV-00 P3
+       103 Raju       CLRK             111 10-DEC-80      21000       7000 D1  02-OCT-01 P1
+       120 Raju       CLRK             111 02-OCT-80      21000       7000 D1  02-OCT-02 P3
+       106 Manohar    MGR              111 02-OCT-86      33000      10000 D2  02-OCT-05 P1
+       104 Manoj      CLRK             125 02-OCT-80      23000       9000 D2  02-OCT-05 P1
+       123 Mahesh     MGR              111 10-DEC-74      35000      10000 D3  02-OCT-02 P2
+       132 John       CLRK             111 15-AUG-90      26000       2000 D3  05-MAY-15 P2
+       108 Mayank     CLRK             106 10-DEC-70      25000      10000 D3  02-OCT-85 P2
+       125 Manu       A.MGR            150 10-DEC-80      23000       9000 D4  02-OCT-02 P2
+
+     EMPNO ENAME      JOB            MGRID DATE_BIRT        SAL       COMM DEP DATE_JOIN PRJ_I
+---------- ---------- --------- ---------- --------- ---------- ---------- --- --------- -----
+       133 Sara       MGR              133 20-NOV-85      35000      10000 D5  12-JUL-10 P1
+       131 Maanya     CLRK             106 10-DEC-80      21000       5000 D5  10-DEC-00 P1
+       150 Ramu       CEO                  10-DEC-70      60000      30000     03-DEC-90
+       111 Raghu      GM               150 10-DEC-74      45000      10000     03-DEC-85
+
+15 rows selected.
+
+
+
+4.5 Display the task details for the project P3:
+
+SELECT * 
+FROM TASK
+WHERE PRJ_ID = 'P3';
+ TASK_ID
+----------
+TASK_NAME
+----------------------------------------------------------------------------------------------------
+PRJ_I DNO S_DATE    E_DATE    STATUS
+----- --- --------- --------- --------------------------------------------------
+         2
+Development Phase
+P3    D1  15-SEP-24 01-NOV-24 NOT STARTED
+
+         3
+Testing Phase
+P3    D1  02-NOV-24 01-DEC-24 NOT STARTED
+
+
+4.6 List out the employees who are not receiving a commission:
+UPDATE EMP SET COMM = NULL WHERE EMPNO = 101;
+UPDATE EMP SET COMM = NULL WHERE EMPNO = 102;
+
+SELECT * 
+FROM EMP 
+WHERE COMM IS NULL;
+
+
+ EMPNO ENAME      JOB            MGRID DATE_BIRT        SAL       COMM DEP DATE_JOIN PRJ_I
+---------- ---------- --------- ---------- --------- ---------- ---------- --- --------- -----
+       101 Ravi       MGR              111 10-OCT-85      32000            D1  02-OCT-01 P1
+       102 Raviraj    CLRK             106 10-DEC-80      24000            D1  12-NOV-00 P3
+
+
+
+4.7 Create a table Manager with columns Empno, Ename, Job, Deptno, Salary with structure and data copied from the EMP table:
+
+CREATE TABLE MANAGER AS
+SELECT EMPNO, ENAME, JOB, DEPTNO, SAL
+FROM EMP;
+
+Table created.
+
+
+
+
+4.8 List the Project Number, Project Name of all the projects handled by the department D2 and having project credits more than 5:
+
+INSERT INTO PROJ (DNO, PRJ_NO, PRJ_NAME, PRJ_CREDIT, PRJ_FUND, STRT_DATE, END_DATE)
+VALUES ('D2', 'P2', 'Project 1', 9, 400000, TO_DATE('2024-08-01', 'YYYY-MM-DD'), TO_DATE('2024-12-01', 'YYYY-MM-DD'));
+
+SELECT PRJ_NO, PRJ_NAME 
+FROM PROJ
+WHERE DNO = 'D2' 
+AND PRJ_CREDIT > 5;
+
+PRJ_N PRJ_NAME
+----- ----------
+P2    Project 1
+P3    Project 5
+
+
+
+
+
+
+
+
+
+
+
