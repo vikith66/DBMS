@@ -1,0 +1,243 @@
+ 5.1 List the minimum, maximum and average salaries and rename the column as 
+min_sal, max_sal, avg_sal, total salary of the employees.
+
+SELECT MIN(SAL) MIN_SAL,MAX(SAL) MAX_SAL,AVG(SAL) AVG_SAL,SUM(SAL) TOT_SAL FROM EMP;
+ MIN_SAL    MAX_SAL    AVG_SAL    TOT_SAL
+---------- ---------- ---------- ----------
+     21000      60000 33470.5882     569000
+
+5.2 List the Project names undertaken by Marketing Department
+
+SELECT P.PRJ_NAME FROM PROJ P JOIN DEPT D ON P.DNO = D.DNO WHERE D.DNAME = 'Marketing';
+
+
+PRJ_NAME
+----------
+Project 1
+Project 3
+
+5.3 Display the employees name in capital, lower, 1st character only capital, number of 
+characters and 3 characters from 2nd position.
+
+SELECT 
+    UPPER(ENAME) AS UPPERCASE,
+    LOWER(ENAME) AS LOWERCASE,
+    INITCAP(ENAME) AS FIRST_CAP,
+    LENGTH(ENAME) AS NUM_CHARS,
+    SUBSTR(ENAME, 2, 3) AS SUBSTRFROM2
+FROM 
+    EMP;
+
+UPPERCASE  LOWERCASE  FIRST_CAP   NUM_CHARS SUBSTRFROM2
+---------- ---------- ---------- ---------- ------------
+JOHN       john       John                4 ohn
+SARA       sara       Sara                4 ara
+RAVRAJ     ravraj     Ravraj              6 avr
+NAVRAJ     navraj     Navraj              6 avr
+RAVI       ravi       Ravi                4 avi
+RAVIRAJ    raviraj    Raviraj             7 avi
+RAGHU      raghu      Raghu               5 agh
+RAMU       ramu       Ramu                4 amu
+RAJU       raju       Raju                4 aju
+RAJU       raju       Raju                4 aju
+MANU       manu       Manu                4 anu
+
+UPPERCASE  LOWERCASE  FIRST_CAP   NUM_CHARS SUBSTRFROM2
+---------- ---------- ---------- ---------- ------------
+MANOJ      manoj      Manoj               5 ano
+MANOHAR    manohar    Manohar             7 ano
+MAHESH     mahesh     Mahesh              6 ahe
+MAYANK     mayank     Mayank              6 aya
+MALHAN     malhan     Malhan              6 alh
+MAANYA     maanya     Maanya              6 aan
+
+17 rows selected.
+
+
+
+5.4 List the name of employees who are working under the manager ‘Raghu’
+
+SELECT ENAME FROM EMP WHERE MGRID IN (SELECT EMPNO FROM EMP WHERE ENAME = 'Raghu');
+
+ENAME
+----------
+Navraj
+Ravi
+Ravraj
+John
+Raju
+Raju
+Malhan
+
+7 rows selected.
+
+
+
+5.5 Display department name, Max salary and Min salary in each department.
+
+SELECT DNAME,MAX(SAL),MIN(SAL) FROM DEPT JOIN EMP ON DEPT.DNO = EMP.DEPTNO GROUP BY DNAME;
+
+DNAME        MAX(SAL)   MIN(SAL)
+---------- ---------- ----------
+Accounts        35000      21000
+Marketing       60000      21000
+HR              23000      23000
+Research        33000      23000
+IT              35000      25000
+
+
+
+5.6 Display number of employees working in each department and their department name.
+
+SELECT DNAME, COUNT(EMPNO) AS NUM_OF_EMP FROM DEPT JOIN EMP ON DEPT.DNO = EMP.DEPTNO GROUP BY DNAME;
+
+DNAME      NUM_OF_EMP
+---------- ----------
+Accounts            2
+Marketing           7
+HR                  1
+Research            2
+IT                  3
+
+
+
+5.7 List the employees whose experience is more than 5 years
+
+SELECT ENAME, DATE_JOIN, 
+FROM EMP
+WHERE SYSDATE - DATE_JOIN > 365 * 5;
+
+ENAME      DATE_JOIN
+---------- ---------
+John       05-MAY-15
+Sara       12-JUL-10
+Ravraj     03-DEC-90
+Navraj     03-DEC-90
+Ravi       02-OCT-01
+Raviraj    12-NOV-00
+Raghu      03-DEC-85
+Ramu       03-DEC-90
+Raju       02-OCT-01
+Raju       02-OCT-02
+Manu       02-OCT-02
+
+ENAME      DATE_JOIN
+---------- ---------
+Manoj      02-OCT-05
+Manohar    02-OCT-05
+Mahesh     02-OCT-02
+Mayank     02-OCT-85
+Malhan     02-OCT-01
+Maanya     10-DEC-00
+
+17 rows selected.
+
+
+5.8 List the Employees who are born in the month of December and year 2000.
+
+UPDATE EMP
+SET DATE_JOIN = TO_DATE('2000-12-10', 'YYYY-MM-DD')
+WHERE EMPNO = 199;
+INSERT INTO Emp VALUES (135, 'Ramesh', 'CLRK', 101, TO_DATE('10-12-2000', 'DD-MM-YYYY'), 21000, 5000, 'D3', TO_DATE('16-02-2022', 'DD-MM-YYYY'), 'P2');
+
+SELECT ENAME, DATE_BIRTH
+FROM EMP
+WHERE DATE_BIRTH BETWEEN DATE '2000-12-01' AND DATE '2000-12-31';
+
+
+
+5.9 List the Departments with More Than Three Employees.
+
+SELECT DEPT.DNAME FROM DEPT JOIN EMP ON DEPT.DNO = EMP.DEPTNO GROUP BY DEPT.DEPTNO WHERE COUNT(DEPTDEPTNO) > 3;
+
+SELECT DEPT.DNAME,COUNT(EMP.EMPNO)
+FROM DEPT
+JOIN EMP ON DEPT.DNO = EMP.DEPTNO
+GROUP BY DEPT.DNAME
+HAVING COUNT(EMP.EMPNO) > 3;
+
+
+DNAME      COUNT(EMP.EMPNO)
+---------- ----------------
+Marketing                 7
+IT                        4
+
+
+5.10 List the employees working under the project ‘Drug Repositioning’
+
+SQL> ALTER TABLE PROJ MODIFY PRJ_NAME VARCHAR2(40);
+
+Table altered.
+
+SQL> UPDATE PROJ SET PRJ_NAME = 'DRUG REPOSITIONING' WHERE PRJ_NAME = 'Project 1';
+
+3 rows updated.
+
+SELECT DISTINCT ENAME,PRJ_NAME FROM EMP JOIN PROJ ON EMP.PRJ_ID = PROJ.PRJ_NO WHERE PRJ_NAME = 'DRUG REPOSITIONING';
+
+
+
+
+
+
+5.11 Write SQL query to illustrate ceiling, floor, truncate, and round functions on the value 
+2.83
+
+SELECT CEIL(2.83),FLOOR(2.83),TRUNC(2.83),ROUND(2.83) FROM DUAL;
+
+CEIL(2.83) FLOOR(2.83) TRUNC(2.83) ROUND(2.83)
+---------- ----------- ----------- -----------
+         3           2           2           3
+
+
+5.13
+
+List all employees along with the tasks they are associated with through their 
+department's projects.
+SELECT DISTINCT E.EMPNO, E.ENAME, T.TASK_ID, T.TASK_NAME
+FROM EMP E
+JOIN PROJ P ON E.DEPTNO = P.DNO
+JOIN TASK T ON P.PRJ_NO = T.PRJ_ID;
+
+
+5.14
+List the departments with no project.
+
+SELECT ENAME,TASK_NAME FROM EMP E,TASK T,PROJ P WHERE E.DEPTNO=P.DNO AND E.PRJ_ID = P.PRJ_NO AND P.PRJ_NO = T.PRJ_ID AND P.DNO = T.DNO;
+
+ENAME      TASK_NAME
+---------- ----------------------------------------------------------------------------------------------------
+John       Design Phase
+Ravraj     Design Phase
+Navraj     Design Phase
+Ramesh     Design Phase
+Ravi       Design Phase
+Raviraj    Development Phase
+Raviraj    Testing Phase
+Raju       Design Phase
+Raju       Development Phase
+Raju       Testing Phase
+Manoj      Development Phase
+
+ENAME      TASK_NAME
+---------- ----------------------------------------------------------------------------------------------------
+Manoj      Deployment Phase
+Manohar    Development Phase
+Manohar    Deployment Phase
+Mahesh     Design Phase
+Mayank     Design Phase
+Malhan     Development Phase
+Malhan     Testing Phase
+Maanya     Documentation Phase
+
+19 rows selected.
+
+
+
+SELECT DNAME FROM DEPT WHERE DNO NOT IN(SELECT DNO FROM PROJ);
+
+DNAME
+----------
+Sales
+Finance
+
