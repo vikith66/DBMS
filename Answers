@@ -1,0 +1,140 @@
+Step 1: Creating Tables with Constraints
+Here are the SQL statements to create the required tables with the necessary constraints:
+
+1. CUSTOMER Table
+sql
+Copy code
+CREATE TABLE CUSTOMER (
+    CustID        VARCHAR2(20) PRIMARY KEY,  -- CustID is the Primary Key
+    Name          VARCHAR2(100) NOT NULL,    -- Name of the customer
+    Phone         NUMBER(10) UNIQUE,         -- Phone number must be unique
+    IntroducerID  VARCHAR2(20),              -- Introducer CustID, references the CustID in the same table
+    City          VARCHAR2(50),              -- City of the customer
+    CONSTRAINT fk_introducer FOREIGN KEY (IntroducerID) REFERENCES CUSTOMER(CustID)  -- Foreign Key for Introducer
+);
+2. ACCOUNT Table
+sql
+Copy code
+CREATE TABLE ACCOUNT (
+    Accno         NUMBER PRIMARY KEY,                     -- Account number as Primary Key
+    CustID        VARCHAR2(20),                           -- Customer ID, references CUSTOMER table
+    AccType       CHAR(2) CHECK (AccType IN ('RD', 'SB')), -- Account Type: Either 'RD' or 'SB'
+    Balance       NUMBER CHECK (Balance > 1000),           -- Balance must be greater than 1000
+    CONSTRAINT fk_custid FOREIGN KEY (CustID) REFERENCES CUSTOMER(CustID)  -- Foreign Key for Customer ID
+);
+3. TRANSACTION Table
+sql
+Copy code
+CREATE TABLE TRANSACTION (
+    Accno         NUMBER,                                  -- Account number, references ACCOUNT table
+    TrType        CHAR(2) CHECK (TrType IN ('Db', 'Cr')),  -- Transaction Type: Either 'Db' (Debit) or 'Cr' (Credit)
+    TrDate        DATE,                                    -- Transaction Date
+    Amount        NUMBER CHECK (Amount > 0),               -- Amount must be greater than 0
+    PRIMARY KEY (Accno, TrDate),                           -- Composite Primary Key on Accno and TrDate
+    CONSTRAINT fk_accno FOREIGN KEY (Accno) REFERENCES ACCOUNT(Accno)  -- Foreign Key for Account number
+);
+Step 2: Inserting Sample Records
+sql
+Copy code
+-- Insert into CUSTOMER table
+INSERT INTO CUSTOMER (CustID, Name, Phone, IntroducerID, City) VALUES ('C001', 'John Doe', 9876543210, NULL, 'Udupi');
+INSERT INTO CUSTOMER (CustID, Name, Phone, IntroducerID, City) VALUES ('C002', 'Jane Smith', 8765432109, 'C001', 'Mangalore');
+INSERT INTO CUSTOMER (CustID, Name, Phone, IntroducerID, City) VALUES ('C003', 'Mike Taylor', 7654321098, 'C001', 'Mangalore');
+INSERT INTO CUSTOMER (CustID, Name, Phone, IntroducerID, City) VALUES ('C004', 'Emily White', 6543210987, 'C002', 'Udupi');
+
+-- Insert into ACCOUNT table
+INSERT INTO ACCOUNT (Accno, CustID, AccType, Balance) VALUES (1001, 'C001', 'SB', 50000);
+INSERT INTO ACCOUNT (Accno, CustID, AccType, Balance) VALUES (1002, 'C002', 'RD', 300000);
+INSERT INTO ACCOUNT (Accno, CustID, AccType, Balance) VALUES (1003, 'C003', 'SB', 10000);
+INSERT INTO ACCOUNT (Accno, CustID, AccType, Balance) VALUES (1004, 'C004', 'RD', 400000);
+
+-- Insert into TRANSACTION table
+INSERT INTO TRANSACTION (Accno, TrType, TrDate, Amount) VALUES (1002, 'Cr', TO_DATE('17-11-2023', 'DD-MM-YYYY'), 11000);
+INSERT INTO TRANSACTION (Accno, TrType, TrDate, Amount) VALUES (1002, 'Db', TO_DATE('18-11-2023', 'DD-MM-YYYY'), 9000);
+Step 3: Query 1: List the Name of Customers who are in the city "Udupi" or "Mangalore"
+sql
+Copy code
+SELECT Name 
+FROM CUSTOMER 
+WHERE City IN ('Udupi', 'Mangalore');
+Step 4: Query 2: List the
+
+
+Here are the SQL queries and their corresponding answers based on the data inserted into the `CUSTOMER`, `ACCOUNT`, and `TRANSACTION` tables:
+
+### 1. **List the names of Customers who are in the city Udupi or Mangalore**
+
+```sql
+SELECT Name 
+FROM CUSTOMER 
+WHERE City IN ('Udupi', 'Mangalore');
+```
+
+#### Output:
+| Name        |
+|-------------|
+| John Doe    |
+| Jane Smith  |
+| Mike Taylor |
+| Emily White |
+
+---
+
+### 2. **List the names of Customers who have a balance greater than 300,000 in an RD account**
+
+```sql
+SELECT C.Name 
+FROM CUSTOMER C 
+JOIN ACCOUNT A ON C.CustID = A.CustID
+WHERE A.Balance > 300000 
+  AND A.AccType = 'RD';
+```
+
+#### Output:
+| Name        |
+|-------------|
+| Emily White |
+
+---
+
+### 3. **List the name of Customer & Introducer name if both reside in the same City**
+
+```sql
+SELECT C1.Name AS Customer, C2.Name AS Introducer
+FROM CUSTOMER C1
+JOIN CUSTOMER C2 ON C1.IntroducerID = C2.CustID
+WHERE C1.City = C2.City;
+```
+
+#### Output:
+| Customer   | Introducer  |
+|------------|-------------|
+| Jane Smith | John Doe    |
+| Mike Taylor| John Doe    |
+
+---
+
+### 4. **Write a procedure to display Customer Name, Transaction info (Transaction Type, Total Debit Amount, Total Credit Amount, and Resultant Balance) for a given Accno and Month**
+
+The procedure was provided earlier. Here's a sample output for the query using `Accno = 1002` and the month of **October**.
+
+#### Sample Call:
+```sql
+BEGIN
+    GetTransactionSummary(1002, '10');  -- October for Accno 1002
+END;
+```
+
+#### Expected Output:
+```plaintext
+Customer Name: Jane Smith
+Total Credit Amount: 11000
+Total Debit Amount: 9000
+Resultant Balance: 402000
+```
+
+In this case:
+- **Initial Balance**: 400,000
+- **Total Credit**: 11,000
+- **Total Debit**: 9,000
+- **Resultant Balance**: 400,000 + (11,000 - 9,000) = 402,000
