@@ -11,3 +11,20 @@ BEGIN
     END LOOP;
 END;
 /
+
+
+Project 1 associated with Design Phase
+Project 4 associated with Design Phase
+Project 1 associated with Development Phase
+Project 4 associated with Development Phase
+Project 2 associated with Design Phase
+Project 3 associated with Development Phase
+Project 5 associated with Development Phase
+Project 3 associated with Testing Phase
+Project 5 associated with Testing Phase
+Project 1 associated with Deployment Phase
+Project 4 associated with Deployment Phase
+Project 2 associated with Development Phase
+Project 2 associated with Deployment Phase
+
+PL/SQL procedure successfully completed.
