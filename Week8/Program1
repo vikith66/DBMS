@@ -20,3 +20,24 @@ BEGIN
     CLOSE cur;
 END;
 /
+
+
+Employee Name: Ravi, Salary: 60000
+Employee Name: Raviraj, Salary: 82333.33
+Employee Name: Raghu, Salary: 45000
+Employee Name: Ramu, Salary: 60000
+Employee Name: Raju, Salary: 49000
+Employee Name: Raju, Salary: 79333.33
+Employee Name: Manu, Salary: 366000
+Employee Name: Manoj, Salary: 37000
+Employee Name: Manohar, Salary: 47000
+Employee Name: Mahesh, Salary: 56000
+Employee Name: Mayank, Salary: 46000
+Employee Name: Malhan, Salary: 83333.33
+Employee Name: Maanya, Salary: 147000
+Employee Name: John, Salary: 47000
+Employee Name: Sara, Salary: 161000
+Employee Name: Ravraj, Salary: 88000
+Employee Name: Navraj, Salary: 88000
+
+PL/SQL procedure successfully completed.
