@@ -1,0 +1,25 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR emp_prj(project_id VARCHAR2) IS
+        SELECT ename, sal, dname 
+        FROM emp e, dept d 
+        WHERE e.deptno = d.dno AND prj_id = project_id 
+        ORDER BY sal DESC 
+        FETCH FIRST 2 ROWS ONLY;
+
+BEGIN
+    FOR i IN emp_prj('&project_id') LOOP
+        DBMS_OUTPUT.PUT_LINE('(' || i.ename || ' , ' || i.sal || ' , ' || i.dname || ')');
+    END LOOP;
+END;
+/
+
+
+Enter value for project_id: P1
+old  10:     FOR i IN emp_prj('&project_id') LOOP
+new  10:     FOR i IN emp_prj('P1') LOOP
+(Ravraj , 60000 , Marketing)
+(Navraj , 60000 , Marketing)
+
+PL/SQL procedure successfully completed.
