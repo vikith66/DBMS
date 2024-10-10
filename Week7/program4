@@ -1,0 +1,12 @@
+SET SERVEROUTPUT ON
+DECLARE
+	emp_no emp.empno%type;
+	emp_name emp.ename%type;
+	dept_name dept.dname%type;
+	salary emp.sal%type;
+BEGIN
+	emp_no:=&emp_no;
+	SELECT ename,dname,sal into emp_name,dept_name,salary FROM EMP JOIN DEPT ON EMP.DNO=DEPT.DNO WHERE empno=emp_no;
+	DBMS_OUTPUT.PUT_LINE(emp_name||' works in '||dept_name||' department and draws '||salary||'/- as salary');
+END;
+/
