@@ -1,0 +1,98 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    emp_name VARCHAR2(100);
+    emp_number NUMBER;
+BEGIN
+    emp_name := '&emp_name'; 
+
+    emp_number := TO_NUMBER(emp_name);
+EXCEPTION
+    WHEN VALUE_ERROR THEN
+        DBMS_OUTPUT.PUT_LINE('ERROR: ENAME cannot be converted into a number.');
+END;
+/
+
+
+Enter value for emp_name: LDWQ
+old   5:     emp_name := '&emp_name';  -- Prompt for employee name
+new   5:     emp_name := 'LDWQ';  -- Prompt for employee name
+ERROR: ENAME cannot be converted into a number.
+
+PL/SQL procedure successfully completed.
+
+
+
+//////////////
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    emp_no NUMBER;
+    emp_name VARCHAR2(100);
+BEGIN
+    emp_no := &emp_no;
+
+    BEGIN
+        SELECT ename INTO emp_name 
+        FROM emp 
+        WHERE empno = emp_no;
+
+        DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('ERROR: No employee found with empno: ' || emp_no);
+    END;
+END;
+/
+
+
+Enter value for emp_no: 1325
+old   5:     emp_no := &emp_no;
+new   5:     emp_no := 1325;
+ERROR: No employee found with empno: 1325
+
+PL/SQL procedure successfully completed.
+
+
+
+
+
+
+
+///////////////////////
+SET SERVEROUTPUT ON;
+
+DECLARE
+    dept_no VARCHAR2(10);
+    emp_name VARCHAR2(100);
+BEGIN
+    dept_no := '&dept_no';
+
+    BEGIN
+        SELECT ename INTO emp_name 
+        FROM emp 
+        WHERE deptno = dept_no;
+
+        DBMS_OUTPUT.PUT_LINE('Employee Name from Dept: ' || emp_name);
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('ERROR: No employee found in deptno: ' || dept_no);
+        WHEN TOO_MANY_ROWS THEN
+            DBMS_OUTPUT.PUT_LINE('ERROR: More than one employee found in deptno: ' || dept_no);
+    END;
+END;
+/
+
+Enter value for dept_no: D9
+old   5:     dept_no := '&dept_no';
+new   5:     dept_no := 'D9';
+ERROR: No employee found in deptno: D9
+
+PL/SQL procedure successfully completed.
+Enter value for dept_no: D1
+old   5:     dept_no := '&dept_no';
+new   5:     dept_no := 'D1';
+ERROR: More than one employee found in deptno: D1
+
+PL/SQL procedure successfully completed.
