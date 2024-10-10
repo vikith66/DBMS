@@ -1,0 +1,22 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR cur IS
+        SELECT ENAME, SAL 
+        FROM EMP 
+        WHERE SAL > 30000;
+
+    ename VARCHAR2(20);
+    sal NUMBER;
+BEGIN
+    OPEN cur;
+
+    LOOP
+        FETCH cur INTO ename, sal;
+        EXIT WHEN cur%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE('Employee Name: ' || ename || ', Salary: ' || sal);
+    END LOOP;
+
+    CLOSE cur;
+END;
+/
