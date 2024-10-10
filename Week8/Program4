@@ -1,0 +1,19 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR cur_emp(emp_job VARCHAR2, emp_dno VARCHAR2) IS
+        SELECT empno, ename, job, sal, deptno 
+        FROM emp 
+        WHERE job = emp_job AND deptno = emp_dno;
+
+    v_emp_job VARCHAR2(20);
+    v_emp_dno VARCHAR2(3);
+BEGIN
+    v_emp_job := '&emp_job';  -- Prompt for job title
+    v_emp_dno := '&emp_dno';  -- Prompt for department number
+
+    FOR i IN cur_emp(v_emp_job, v_emp_dno) LOOP
+        DBMS_OUTPUT.PUT_LINE('(' || i.empno || ' , ' || i.ename || ' , ' || i.job || ' , ' || i.deptno || ')');
+    END LOOP;
+END;
+/
