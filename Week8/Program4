@@ -9,11 +9,22 @@ DECLARE
     v_emp_job VARCHAR2(20);
     v_emp_dno VARCHAR2(3);
 BEGIN
-    v_emp_job := '&emp_job';  -- Prompt for job title
-    v_emp_dno := '&emp_dno';  -- Prompt for department number
+    v_emp_job := '&emp_job';
+    v_emp_dno := '&emp_dno';
 
     FOR i IN cur_emp(v_emp_job, v_emp_dno) LOOP
         DBMS_OUTPUT.PUT_LINE('(' || i.empno || ' , ' || i.ename || ' , ' || i.job || ' , ' || i.deptno || ')');
     END LOOP;
 END;
 /
+
+
+Enter value for emp_job: MGR
+old  10:     v_emp_job := '&emp_job';
+new  10:     v_emp_job := 'MGR';
+Enter value for emp_dno: D1
+old  11:     v_emp_dno := '&emp_dno';
+new  11:     v_emp_dno := 'D1';
+(101 , Ravi , MGR , D1)
+
+PL/SQL procedure successfully completed.
