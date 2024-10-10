@@ -1,0 +1,84 @@
+SET SERVEROUTPUT ON;
+DECLARE
+  v_principle      NUMBER := &principle;      
+  v_rate  NUMBER := &interest_rate;  
+
+  v_duration       NUMBER := &duration;       
+  v_interest       NUMBER;                   
+BEGIN
+  
+  IF v_principle <= 1000 THEN
+    DBMS_OUTPUT.PUT_LINE('Error: Principle should be greater than 1000.');
+  ELSIF v_rate < 5 THEN
+    DBMS_OUTPUT.PUT_LINE('Error: Interest rate should be 5 or more.');
+  ELSIF v_duration < 1 THEN
+    DBMS_OUTPUT.PUT_LINE('Error: Duration should be 1 year or more.');
+  ELSE
+   
+    v_interest := (v_principle * v_rate * v_duration) / 100;
+    DBMS_OUTPUT.PUT_LINE('Interest to be paid: ' || v_interest);
+  END IF;
+
+END;
+/
+
+
+Enter value for principle: 10000
+old   2:   v_principle      NUMBER := &principle;
+new   2:   v_principle      NUMBER := 10000;
+Enter value for interest_rate: 5
+old   3:   v_rate  NUMBER := &interest_rate;
+new   3:   v_rate  NUMBER := 5;
+Enter value for duration: 3
+old   5:   v_duration       NUMBER := &duration;
+new   5:   v_duration       NUMBER := 3;
+Interest to be paid: 1500
+
+PL/SQL procedure successfully completed.
+
+
+
+
+Enter value for principle: 100
+old   2:   v_principle      NUMBER := &principle;
+new   2:   v_principle      NUMBER := 100;
+Enter value for interest_rate: 6
+old   3:   v_rate  NUMBER := &interest_rate;
+new   3:   v_rate  NUMBER := 6;
+Enter value for duration: 6
+old   5:   v_duration       NUMBER := &duration;
+new   5:   v_duration       NUMBER := 6;
+Error: Principle should be greater than 1000.
+
+PL/SQL procedure successfully completed.
+
+
+
+
+Enter value for principle: 2000
+old   2:   v_principle      NUMBER := &principle;
+new   2:   v_principle      NUMBER := 2000;
+Enter value for interest_rate: 4
+old   3:   v_rate  NUMBER := &interest_rate;
+new   3:   v_rate  NUMBER := 4;
+Enter value for duration: 2
+old   5:   v_duration       NUMBER := &duration;
+new   5:   v_duration       NUMBER := 2;
+Error: Interest rate should be 5 or more.
+
+PL/SQL procedure successfully completed.
+
+
+
+Enter value for principle: 2000
+old   2:   v_principle      NUMBER := &principle;
+new   2:   v_principle      NUMBER := 2000;
+Enter value for interest_rate: 6
+old   3:   v_rate  NUMBER := &interest_rate;
+new   3:   v_rate  NUMBER := 6;
+Enter value for duration: 0.3
+old   5:   v_duration       NUMBER := &duration;
+new   5:   v_duration       NUMBER := 0.3;
+Error: Duration should be 1 year or more.
+
+PL/SQL procedure successfully completed.
