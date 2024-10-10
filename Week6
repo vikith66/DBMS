@@ -1,0 +1,175 @@
+6.1 List Job category and total salary paid for the each jobs category by the company.
+
+SQL> SELECT JOB,SUM(SAL) TOTAL_SAL FROM EMP GROUP BY JOB;
+
+JOB        TOTAL_SAL
+--------- ----------
+CEO            60000
+GM             87000
+A.MGR          23000
+CLRK          167000
+MGR           100000
+
+6.2 Display name of the department from which maximum number of employees are 
+working on project P1.
+
+SQL> WITH MAX_EMP AS
+  2  (SELECT DNAME,COUNT(EMPNO) AS EMP_COUNT FROM EMP E JOIN DEPT D ON E.DNO=D.DNO WHERE E.PRJ_ID='P1' GROUP BY DNAME)
+  3  SELECT DNAME,EMP_COUNT FROM MAX_EMP WHERE EMP_COUNT=(SELECT MAX(EMP_COUNT) FROM MAX_EMP);
+
+DNAME       EMP_COUNT
+---------- ----------
+Research            3
+
+6.3 Select name and job of employees working either in ‘Marketing’ or ‘Research’ 
+department.
+
+SQL> SELECT ENAME,JOB,DNAME FROM EMP JOIN DEPT ON EMP.DNO=DEPT.DNO WHERE DNAME IN('Marketing','Research');
+
+ENAME      JOB       DNAME
+---------- --------- ----------
+Ravi       MGR       Marketing
+Raviraj    CLRK      Marketing
+Raju       CLRK      Research
+Raghuram   CLRK      Marketing
+Manu       A.MGR     Research
+Manoj      CLRK      Research
+Manohar    MGR       Research
+Malhan     CLRK      Marketing
+
+8 rows selected.
+
+6.4 Display name and salary of employees whose salary is greater than minimum salary of 
+the company.
+
+SQL> SELECT ENAME,SAL FROM EMP WHERE SAL>(SELECT MIN(SAL) FROM EMP);
+
+ENAME             SAL
+---------- ----------
+Ravi            32000
+Raviraj         24000
+Raghu           45000
+SAVRAJ          60000
+Raju            28000
+Manu            23000
+Manoj           23000
+Manohar         33000
+Mahesh          35000
+Mayank          25000
+Malhan          25000
+
+11 rows selected.
+
+6.5 Display Employees Working on the Most Projects.
+
+SQL> WITH E_TABLE(PRJ_ID,EMP_COUNT)AS (SELECT PRJ_ID,COUNT(EMPNO) FROM EMP GROUP BY PRJ_ID)
+  2  SELECT ENAME FROM EMP E JOIN E_TABLE T ON E.PRJ_ID=T.PRJ_ID AND EMP_COUNT=(SELECT MAX(EMP_COUNT) FROM E_TABLE);
+
+ENAME
+----------
+Ravi
+Raju
+Manoj
+Manohar
+
+
+6.6 Display the Deptno of the department that has highest average salary of the company.
+
+SQL> WITH EMP_TABLE(MAX_AVG_SAL,DEPTNO)AS (SELECT AVG(SAL),DNO FROM EMP GROUP BY DNO) SELECT DEPTNO,MAX_AVG_SAL "MAX_SAL" FROM EMP_TABLE WHERE MAX_AVG_SAL=(SELECT MAX(MAX_AVG_SAL) FROM EMP_TABLE);
+
+DEP    MAX_SAL
+--- ----------
+         52500
+
+6.7 List the name of departments which are working on more than 1 project.
+
+SQL> SELECT DNAME FROM DEPT NATURAL JOIN PROJ GROUP BY DNAME HAVING COUNT(PRJ_NO)>1;
+
+DNAME
+----------
+Marketing
+Research
+
+6.8 Display how many employees joined after 15th of all months.
+
+SQL> SELECT COUNT(EMPNO) FROM EMP WHERE EXTRACT(DAY FROM DATE_JOIN)>15;
+
+COUNT(EMPNO)
+------------
+           1
+
+6.9 Write a query to list Employee number, name and Job of the employees who work in 
+the same job as ‘Mahesh’.
+
+SQL> SELECT EMPNO,ENAME,JOB FROM EMP WHERE JOB=(SELECT JOB FROM EMP WHERE ENAME='Mahesh');
+
+     EMPNO ENAME      JOB
+---------- ---------- ---------
+       101 Ravi       MGR
+       106 Manohar    MGR
+       123 Mahesh     MGR
+
+6.10 Create a View EMP_PRJ_VW to display records of employees of ‘marketing’ 
+department and project in which they are working.
+
+SQL> create view EMP_PRJ_VW as select empno,ename,dname,prj_name from dept d natural join proj p join emp e on e.prj_id=p.prj_no where dname='Marketing';
+
+View created.
+
+SQL> select * from EMP_PRJ_VW;
+
+     EMPNO ENAME      DNAME      PRJ_NAME
+---------- ---------- ---------- -------------------------
+       101 Ravi       Marketing  DigiTech
+       102 Raviraj    Marketing  AI
+       103 Raju       Marketing  DigiTech
+       120 Raghuram   Marketing  AI
+       104 Manoj      Marketing  DigiTech
+       106 Manohar    Marketing  DigiTech
+       130 Malhan     Marketing  AI
+
+7 rows selected.
+
+6.11 Display employee names and projects in which they are working using View EMP_PRJ_VW .
+
+select ename,prj_name from EMP_PRJ_VW;
+
+ENAME      PRJ_NAME
+---------- -------------------------
+Ravi       DigiTech
+Raviraj    AI
+Raju       DigiTech
+Raghuram   AI
+Manoj      DigiTech
+Manohar    DigiTech
+Malhan     AI
+
+7 rows selected.
+
+6.12 Calculate Total and Average Task Duration for Each Project
+
+SQL> select prj_id,sum(E_DATE-S_DATE),avg(E_DATE-S_DATE) from task group by prj_id;
+
+PRJ_I SUM(E_DATE-S_DATE) AVG(E_DATE-S_DATE)
+----- ------------------ ------------------
+P1                   419              209.5
+P2                   492                246
+P5                   121                121
+P3                    34                 17
+
+
+6.13 List out the number of employees joined in every month in ascending order.
+
+select count(empno), extract(month from date_join) "Month" from emp group by extract(month from date_join) order by extract(month from date_join);
+
+COUNT(EMPNO)      Month
+------------ ----------
+           9         10
+           2         11
+           4         12
+
+6.14 Create an index on the columns (name and job) on EMP table.
+
+SQL> create index i_emp on emp(ename,job);
+
+Index created.
