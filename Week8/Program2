@@ -1,0 +1,13 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    CURSOR emp IS 
+        SELECT DISTINCT PRJ_NAME, TASK_NAME 
+        FROM PROJ 
+        JOIN TASK ON PRJ_NO = PRJ_ID;
+BEGIN
+    FOR i IN emp LOOP
+        DBMS_OUTPUT.PUT_LINE(i.prj_name || ' associated with ' || i.task_name);
+    END LOOP;
+END;
+/
