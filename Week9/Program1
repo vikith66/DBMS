@@ -1,37 +1,4 @@
 
-//////////////
-
-SET SERVEROUTPUT ON;
-
-DECLARE
-    emp_no NUMBER;
-    emp_name VARCHAR2(100);
-BEGIN
-    emp_no := &emp_no;
-
-    BEGIN
-        SELECT ename INTO emp_name 
-        FROM emp 
-        WHERE empno = emp_no;
-
-        DBMS_OUTPUT.PUT_LINE('Employee Name: ' || emp_name);
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            DBMS_OUTPUT.PUT_LINE('ERROR: No employee found with empno: ' || emp_no);
-    END;
-END;
-/
-
-
-Enter value for emp_no: 1325
-old   5:     emp_no := &emp_no;
-new   5:     emp_no := 1325;
-ERROR: No employee found with empno: 1325
-
-PL/SQL procedure successfully completed.
-
-
-
 
 
 
