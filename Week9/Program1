@@ -1,27 +1,3 @@
-SET SERVEROUTPUT ON;
-
-DECLARE
-    emp_name VARCHAR2(100);
-    emp_number NUMBER;
-BEGIN
-    emp_name := '&emp_name'; 
-
-    emp_number := TO_NUMBER(emp_name);
-EXCEPTION
-    WHEN VALUE_ERROR THEN
-        DBMS_OUTPUT.PUT_LINE('ERROR: ENAME cannot be converted into a number.');
-END;
-/
-
-
-Enter value for emp_name: LDWQ
-old   5:     emp_name := '&emp_name';  -- Prompt for employee name
-new   5:     emp_name := 'LDWQ';  -- Prompt for employee name
-ERROR: ENAME cannot be converted into a number.
-
-PL/SQL procedure successfully completed.
-
-
 
 //////////////
 
