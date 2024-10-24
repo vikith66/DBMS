@@ -1,0 +1,37 @@
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE TRIGGER addition_fund
+AFTER UPDATE OF prj_fund ON PROJ
+FOR EACH ROW
+DECLARE
+    actual_difference NUMBER;  
+    current_difference NUMBER;  
+    additional_fund_val PROJ.prj_fund%TYPE;
+    percentage NUMBER(5,2);
+BEGIN
+    IF :OLD.prj_fund < :NEW.prj_fund THEN
+        actual_difference := FLOOR(TO_DATE(:OLD.end_date) - TO_DATE(:OLD.strt_date));
+        current_difference := FLOOR(TO_DATE(:OLD.end_date) - SYSDATE);
+        
+        IF actual_difference > 0 THEN
+            percentage := FLOOR((current_difference / actual_difference) * 100);
+        ELSE
+            percentage := 0; 
+        END IF;
+
+        additional_fund_val := (:NEW.prj_fund - :OLD.prj_fund);
+
+        IF percentage < 50 THEN
+            DBMS_OUTPUT.PUT_LINE('You are eligible for Rs. ' || (additional_fund_val * 70) / 100);
+        ELSE
+            DBMS_OUTPUT.PUT_LINE('You are eligible for Rs. ' || (additional_fund_val * 40) / 100);
+        END IF;
+    END IF;
+END;
+/
+
+
+UPDATE PROJ SET PRJ_FUND = 720000 WHERE DNO = 'D1' AND PRJ_NO = 'P1';
+You are eligible for Rs. 119000
+
+1 row updated.
