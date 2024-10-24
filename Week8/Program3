@@ -12,19 +12,21 @@ BEGIN
 END;
 /
 
-
-Project 1 associated with Design Phase
 Project 4 associated with Design Phase
-Project 1 associated with Development Phase
-Project 4 associated with Development Phase
-Project 2 associated with Design Phase
-Project 3 associated with Development Phase
-Project 5 associated with Development Phase
+DRUG REPOSITIONING associated with Deployment Phase
 Project 3 associated with Testing Phase
+Project 3 associated with Documentation Phase
+PROJECT 5 associated with Documentation Phase
 Project 5 associated with Testing Phase
-Project 1 associated with Deployment Phase
+Project 4 associated with Development Phase
+Project 3 associated with Development Phase
+PROJECT 5 associated with Testing Phase
+DRUG REPOSITIONING associated with Design Phase
+DRUG REPOSITIONING associated with Development Phase
+Project 5 associated with Documentation Phase
+Project 2 associated with Design Phase
+PROJECT 5 associated with Development Phase
 Project 4 associated with Deployment Phase
-Project 2 associated with Development Phase
-Project 2 associated with Deployment Phase
+Project 5 associated with Development Phase
 
 PL/SQL procedure successfully completed.
