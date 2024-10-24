@@ -1,6 +1,58 @@
+SET SERVEROUTPUT ON;
+DECLARE
+    ename emp.ename%TYPE;   
+    emp_no emp.empno%TYPE;  
+BEGIN
+    emp_no := &empno;        
+
+    BEGIN
+        SELECT TO_NUMBER(ename) INTO ename FROM emp WHERE empno = emp_no;
+    EXCEPTION
+        WHEN INVALID_NUMBER THEN
+            DBMS_OUTPUT.PUT_LINE('ERROR: ENAME cannot be converted into a number.');
+    END;
+END;
+/
+Enter value for empno: 101
+old   5:     emp_no := '&empno';
+new   5:     emp_no := '101';
+ERROR: ENAME cannot be converted into a number.
+
+PL/SQL procedure successfully completed.
+//////////////////////////////
 
 
+SET SERVEROUTPUT ON;
+DECLARE
+    ename emp.ename%TYPE;   
+    emp_no emp.empno%TYPE;  
+BEGIN
+    emp_no := &empno;        
 
+    BEGIN
+        SELECT ename INTO ename FROM emp WHERE empno = emp_no;
+        DBMS_OUTPUT.PUT_LINE('ENAME for EMPNO ' || emp_no || ' : ' || ename);
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('ERROR: EMPNO ' || emp_no || ' does not exist.');
+    END;
+END;
+/
+Enter value for empno: 101
+old   5:     emp_no := &empno;
+new   5:     emp_no := 101;
+ENAME for EMPNO 101 : Ravi
+
+PL/SQL procedure successfully completed.
+
+Enter value for empno: 222
+old   5:     emp_no := &empno;
+new   5:     emp_no := 222;
+ERROR: EMPNO 222 does not exist.
+
+PL/SQL procedure successfully completed.
+
+///////////////////////////////////////////////////
 SET SERVEROUTPUT ON;
 
 DECLARE
