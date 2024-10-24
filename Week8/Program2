@@ -39,30 +39,31 @@ END;
 
 
 
- SELECT * FROM EMP;
+SELECT EMPNO,ENAME,SAL FROM EMP;
 
-EMPNO ENAME      JOB            MGRID DATE_BIRT        SAL       COMM DEP DATE_JOIN PRJ_I
----------- ---------- --------- ---------- --------- ---------- ---------- --- --------- -----
-       132 John       CLRK             111 15-AUG-90      57500       2000 D3  05-MAY-15 P2
-       133 Sara       MGR              133 20-NOV-85     539000       5000 D5  12-JUL-10 P1
-       140 Ravraj     CEO              111 10-DEC-70     116000      30000 D1  03-DEC-90 P1
-       141 Navraj     CEO              111 10-DEC-70      81000      30000 D1  03-DEC-90 P1
-       135 Ramesh     CLRK             101 10-DEC-00      52500       5000 D3  16-FEB-22 P2
-       101 Ravi       MGR              111 10-OCT-85      88000      10000 D1  02-OCT-01 P1
-       102 Raviraj    CLRK             106 10-DEC-80  140666.66            D1  12-NOV-00 P3
-       111 Raghu      GM               150 10-DEC-74      45000      10000     03-DEC-85
-       150 Ramu       CEO                  10-DEC-70      60000                03-DEC-90
-       103 Raju       MGR              111 10-DEC-80      77000      10000 D1  02-OCT-01 P1
-       120 Raju       CLRK             111 02-OCT-80  137666.66       7000 D1  02-OCT-02 P3
+     EMPNO ENAME             SAL
+---------- ---------- ----------
+       132 John            57500
+       133 Sara           539000
+       140 Ravraj         116000
+       141 Navraj          81000
+       135 Ramesh          52500
+       101 Ravi            88000
+       102 Raviraj     140666.66
+       111 Raghu           45000
+       150 Ramu            60000
+       103 Raju            77000
+       120 Raju        137666.66
 
-     EMPNO ENAME      JOB            MGRID DATE_BIRT        SAL       COMM DEP DATE_JOIN PRJ_I
----------- ---------- --------- ---------- --------- ---------- ---------- --- --------- -----
-       125 Manu       A.MGR            150 10-DEC-80     709000      10000 D4  02-OCT-02 P2
-       104 Manoj      CLRK             125 02-OCT-80      51000       9000 D2  02-OCT-05 P1
-       106 Manohar    MGR              199 02-OCT-86      61000      10000 D2  02-OCT-05 P1
-       123 Mahesh     MGR              150 10-DEC-74      66500      10000 D3  02-OCT-02 P2
-       108 Mayank     CLRK             106 10-DEC-70      56500      10000 D3  02-OCT-85 P2
-       130 Malhan     CLRK             111 10-DEC-80  141666.66      10000 D1  02-OCT-01 P3
-       199 Maanya     CLRK                 10-DEC-00     805000       5000 D5  10-DEC-20 P3
+     EMPNO ENAME             SAL
+---------- ---------- ----------
+       125 Manu           709000
+       104 Manoj           51000
+       106 Manohar         61000
+       123 Mahesh          66500
+       108 Mayank          56500
+       130 Malhan      141666.66
+       199 Maanya         805000
 
 18 rows selected.
+
