@@ -1,0 +1,34 @@
+create table sal_mod(Empno number,dname varchar2(20),old_sal number(10,2),mod_date date,Modifier varchar2(30));
+
+Table created.
+
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE TRIGGER log_sal_change
+AFTER UPDATE OF sal ON emp
+FOR EACH ROW
+WHEN (OLD.sal != NEW.sal)
+DECLARE
+    v_dname dept.dname%TYPE;
+BEGIN
+    SELECT dname INTO v_dname
+    FROM dept
+    WHERE dno = :OLD.deptno;
+
+    -- Insert the change details into sal_mod table
+    INSERT INTO sal_mod (empno, dname, old_sal, mod_date, modifier)
+    VALUES (:OLD.empno, v_dname, :OLD.sal, SYSDATE, USER);
+END;
+/
+
+
+ UPDATE emp SET sal = 26000 WHERE empno = 123;
+
+1 row updated.
+
+
+SELECT * FROM sal_mod;
+
+     EMPNO DNAME                   OLD_SAL MOD_DATE  MODIFIER
+---------- -------------------- ---------- --------- ------------------------------
+       123 IT                        66500 24-OCT-24 MCA094
