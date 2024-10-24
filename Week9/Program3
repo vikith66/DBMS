@@ -43,13 +43,8 @@ new   2:   v_empno  NUMBER := 101;
 Employee Details:
 Empno: 101
 Name: Ravi
-Salary: 60000
+Salary: 88000
 Error: Salary is more than 25000/-
-
-Enter value for empno: 122
-old   2:   v_empno  NUMBER := &empno;
-new   2:   v_empno  NUMBER := 122;
-Error: Employee not found.
 
 PL/SQL procedure successfully completed.
 
