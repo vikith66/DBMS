@@ -25,6 +25,7 @@ new  10:     v_emp_job := 'MGR';
 Enter value for emp_dno: D1
 old  11:     v_emp_dno := '&emp_dno';
 new  11:     v_emp_dno := 'D1';
+(103 , Raju , MGR , D1)
 (101 , Ravi , MGR , D1)
 
 PL/SQL procedure successfully completed.
