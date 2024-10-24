@@ -19,7 +19,7 @@ END;
 Enter value for project_id: P1
 old  10:     FOR i IN emp_prj('&project_id') LOOP
 new  10:     FOR i IN emp_prj('P1') LOOP
-(Ravraj , 60000 , Marketing)
-(Navraj , 60000 , Marketing)
+(Sara , 539000 , Accounts)
+(Ravraj , 116000 , Marketing)
 
 PL/SQL procedure successfully completed.
