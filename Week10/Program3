@@ -1,0 +1,22 @@
+SET SERVEROUTPUT ON;
+
+CREATE OR REPLACE TRIGGER prevent_update
+BEFORE UPDATE OF sal ON Emp
+FOR EACH ROW
+BEGIN
+    IF :OLD.sal > :NEW.sal THEN
+        RAISE_APPLICATION_ERROR(-20001, 'Employee salary cannot be reduced!');
+    END IF;
+END;
+/
+
+
+
+UPDATE EMP SET SAL = SAL - 1000 WHERE EMPNO = 101;
+UPDATE EMP SET SAL = SAL - 1000 WHERE EMPNO = 101
+       *
+ERROR at line 1:
+ORA-20001: Employee salary cannot be reduced!
+ORA-06512: at "MCA107.PREVENT_UPDATE", line 3
+ORA-04088: error during execution of trigger 'MCA107.PREVENT_UPDATE'
+
