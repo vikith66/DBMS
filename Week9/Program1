@@ -53,30 +53,6 @@ ERROR: EMPNO 222 does not exist.
 PL/SQL procedure successfully completed.
 
 ///////////////////////////////////////////////////
-SET SERVEROUTPUT ON;
-
-DECLARE
-    dept_no_input VARCHAR2(10);
-    emp_name VARCHAR2(100);
-BEGIN
-    dept_no_input := '&dept_no';
-
-    BEGIN
-        SELECT ename INTO emp_name 
-        FROM emp 
-        WHERE deptno = dept_no_input;
-
-        DBMS_OUTPUT.PUT_LINE('Employee Name from Dept: ' || emp_name);
-    EXCEPTION
-        WHEN NO_DATA_FOUND THEN
-            DBMS_OUTPUT.PUT_LINE('ERROR: No employee found in deptno: ' || dept_no_input);
-        WHEN TOO_MANY_ROWS THEN
-            DBMS_OUTPUT.PUT_LINE('ERROR: More than one employee found in deptno: ' || dept_no_input);
-        WHEN VALUE_ERROR THEN
-            DBMS_OUTPUT.PUT_LINE('ERROR: Invalid number format for deptno: ' || dept_no_input);
-    END;
-END;
-/
 
 ///////////////////////
 SET SERVEROUTPUT ON;
