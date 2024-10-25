@@ -17,7 +17,7 @@ BEGIN
     SELECT COUNT(*)
     INTO v_completed_count
     FROM TASK
-    WHERE PRJ_ID = p_prj_id AND STATUS = 'Completed';
+    WHERE PRJ_ID = p_prj_id AND STATUS = 'COMPLETED';
 
     IF v_completed_count = v_total_tasks THEN
         RETURN 'Completed';
