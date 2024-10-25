@@ -31,3 +31,16 @@ EXCEPTION
         RETURN 'Error: ' || SQLERRM;
 END Get_Project_Status;
 /
+
+
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    v_status VARCHAR2(50);
+BEGIN
+    v_status := Get_Project_Status('P1');
+    DBMS_OUTPUT.PUT_LINE('Project Status: ' || v_status);
+END;
+/
