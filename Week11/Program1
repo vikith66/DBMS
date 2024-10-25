@@ -1,0 +1,49 @@
+CREATE OR REPLACE PROCEDURE calculate_age_service (
+    empno IN NUMBER,
+    age OUT NUMBER,
+    service_years OUT NUMBER
+) AS
+BEGIN
+    SELECT FLOOR(MONTHS_BETWEEN(SYSDATE, DATE_BIRTH) / 12)
+    INTO age
+    FROM emp
+    WHERE EMPNO = empno;
+
+    SELECT FLOOR(MONTHS_BETWEEN(SYSDATE, DATE_JOIN) / 12)
+    INTO service_years
+    FROM emp
+    WHERE EMPNO = empno;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        age := NULL;
+        service_years := NULL;
+END;
+/
+
+
+
+
+
+
+
+SET SERVEROUTPUT ON;
+
+DECLARE
+    v_empno         NUMBER;
+    v_age           NUMBER;
+    v_service_years NUMBER;
+BEGIN
+    -- Cursor to fetch all employee numbers
+    FOR emp_rec IN (SELECT EMPNO FROM emp) LOOP
+        v_empno := emp_rec.EMPNO;
+
+        -- Call the procedure to calculate age and service experience
+        calculate_age_service(v_empno, v_age, v_service_years);
+
+        -- Display results
+        DBMS_OUTPUT.PUT_LINE('Employee No: ' || v_empno || 
+                             ', Age: ' || NVL(v_age, 'Not Found') || 
+                             ', Service Years: ' || NVL(v_service_years, 'Not Found'));
+    END LOOP;
+END;
+/
